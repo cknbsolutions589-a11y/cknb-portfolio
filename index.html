@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CKNB Solutions — We Build. You Grow.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #060c18;
+      --bg2:     #0b1220;
+      --cyan:    #00e5ff;
+      --purple:  #a855f7;
+      --green:   #22d3a0;
+      --orange:  #f97316;
+      --glass:   rgba(255,255,255,0.04);
+      --border:  rgba(255,255,255,0.07);
+      --text:    #e2e8f0;
+      --muted:   #64748b;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Plus Jakarta Sans', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── BG ── */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,229,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
+    .orb-1 { width:600px; height:600px; background:#00e5ff18; top:-150px; left:-150px; animation: drift 16s ease-in-out infinite alternate; opacity:.4; }
+    .orb-2 { width:500px; height:500px; background:#a855f718; bottom:-100px; right:-100px; animation: drift 20s ease-in-out infinite alternate-reverse; opacity:.35; }
+    .orb-3 { width:350px; height:350px; background:#22d3a015; top:45%; left:55%; animation: drift 24s ease-in-out infinite alternate; opacity:.3; }
+    @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(25px,18px) scale(1.08)} }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top:0; width:100%; z-index:100;
+      backdrop-filter: blur(20px);
+      background: rgba(6,12,24,.75);
+      border-bottom: 1px solid var(--border);
+      padding: 0 6%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+      text-decoration: none; letter-spacing: -.01em;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .nav-logo .ck { color: var(--cyan); }
+    .nav-logo .nb { color: var(--purple); }
+    .nav-logo .sol { color: var(--text); font-weight: 400; font-size: .85rem; margin-left: .1rem; opacity: .6; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .82rem;
+      font-family: var(--font-mono); letter-spacing: .06em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta {
+      padding: .5rem 1.25rem; border-radius: 8px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #060c18; font-family: var(--font-display); font-weight: 600;
+      font-size: .8rem; text-decoration: none; transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ── SECTIONS ── */
+    section { position: relative; z-index: 1; padding: 120px 8% 80px; }
+    #hero { padding-top: 0; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 8%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .35rem 1rem; border-radius: 99px;
+      border: 1px solid rgba(0,229,255,.2);
+      background: rgba(0,229,255,.06);
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--cyan); letter-spacing: .1em;
+      margin-bottom: 2rem;
+    }
+    .hero-badge::before { content:'●'; font-size:.5rem; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      font-weight: 700; line-height: 1.0;
+      letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+    .hero-title .line2 { display: block; }
+    .hero-title .grad {
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 50%, var(--green) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted); max-width: 580px;
+      margin-bottom: 2.5rem; font-weight: 400;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
+    .btn-primary {
+      padding: .8rem 2rem; border-radius: 10px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #060c18; font-family: var(--font-display); font-weight: 700;
+      font-size: .9rem; text-decoration: none;
+      transition: opacity .2s, transform .2s; display: inline-block;
+    }
+    .btn-primary:hover { opacity:.85; transform: translateY(-2px); }
+    .btn-outline {
+      padding: .8rem 2rem; border-radius: 10px;
+      border: 1px solid var(--border); color: var(--text);
+      font-family: var(--font-display); font-weight: 500; font-size: .9rem;
+      text-decoration: none; transition: border-color .2s, color .2s; display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; flex-wrap: wrap;
+    }
+    .h-stat-num {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .h-stat-label { font-size: .78rem; color: var(--muted); margin-top: .1rem; }
+
+    /* ── SECTION HEADER ── */
+    .sec-eyebrow {
+      font-family: var(--font-mono); font-size: .72rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: .6rem;
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .sec-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--cyan); }
+    .sec-title {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; letter-spacing: -.02em; margin-bottom: 1rem;
+    }
+    .sec-line {
+      width: 56px; height: 3px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── GLASS ── */
+    .glass {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .glass:hover {
+      border-color: rgba(0,229,255,.2);
+      box-shadow: 0 0 40px rgba(0,229,255,.06);
+    }
+
+    /* ── ABOUT ── */
+    #about .about-wrap {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .about-text p { color: #94a3b8; font-size: .95rem; margin-bottom: 1rem; }
+    .about-text strong { color: var(--cyan); }
+    .about-values { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+    .value-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1rem 1.25rem; border-radius: 12px;
+      background: var(--glass); border: 1px solid var(--border);
+    }
+    .value-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: .1rem; }
+    .value-title { font-family: var(--font-display); font-weight: 600; font-size: .9rem; margin-bottom: .2rem; }
+    .value-desc { font-size: .8rem; color: var(--muted); }
+    .about-img-side {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .stat-card {
+      padding: 1.5rem; border-radius: 14px;
+      background: var(--glass); border: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat-card:nth-child(2) { margin-top: 1.5rem; }
+    .stat-card:nth-child(4) { margin-top: -1.5rem; }
+    .stat-num {
+      font-family: var(--font-display); font-size: 2.4rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat-lbl { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
+
+    /* ── SERVICES ── */
+    #services .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;
+    }
+    .service-card { padding: 2rem; border-radius: 16px; }
+    .service-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1.25rem;
+    }
+    .service-title {
+      font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+      margin-bottom: .6rem;
+    }
+    .service-desc { font-size: .875rem; color: #94a3b8; margin-bottom: 1.25rem; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .stag {
+      padding: .2rem .6rem; border-radius: 6px;
+      font-family: var(--font-mono); font-size: .68rem;
+      background: rgba(0,229,255,.07); color: var(--cyan);
+      border: 1px solid rgba(0,229,255,.12);
+    }
+    .stag.p { background: rgba(168,85,247,.07); color: var(--purple); border-color: rgba(168,85,247,.12); }
+    .stag.g { background: rgba(34,211,160,.07); color: var(--green); border-color: rgba(34,211,160,.12); }
+    .stag.o { background: rgba(249,115,22,.07); color: var(--orange); border-color: rgba(249,115,22,.12); }
+
+    /* ── TEAM ── */
+    #team .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;
+    }
+    .member-card { padding: 2rem; border-radius: 16px; text-align: center; }
+    .member-avatar {
+      width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-family: var(--font-display); font-weight: 700;
+      position: relative;
+    }
+    .member-avatar::after {
+      content: ''; position: absolute; inset: -3px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      z-index: -1;
+    }
+    .member-name {
+      font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+      margin-bottom: .2rem;
+    }
+    .member-role {
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--cyan); letter-spacing: .08em; margin-bottom: .75rem;
+    }
+    .member-bio { font-size: .82rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .member-skills { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin-bottom: 1rem; }
+    .m-skill {
+      padding: .15rem .55rem; border-radius: 6px;
+      font-family: var(--font-mono); font-size: .65rem;
+      background: rgba(255,255,255,.05); color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .member-links { display: flex; justify-content: center; gap: .6rem; }
+    .m-link {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); text-decoration: none; font-size: .8rem;
+      transition: border-color .2s, color .2s;
+    }
+    .m-link:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* ── PROJECTS ── */
+    #projects .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;
+    }
+    .proj-card { padding: 2rem; border-radius: 16px; display: flex; flex-direction: column; }
+    .proj-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .proj-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .proj-links { display: flex; gap: .5rem; }
+    .proj-link {
+      width: 30px; height: 30px; border-radius: 7px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); text-decoration: none; font-size: .8rem;
+      transition: border-color .2s, color .2s;
+    }
+    .proj-link:hover { border-color: var(--cyan); color: var(--cyan); }
+    .proj-badge {
+      display: inline-block; padding: .18rem .6rem; border-radius: 99px;
+      font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em;
+      background: linear-gradient(135deg, rgba(0,229,255,.12), rgba(168,85,247,.12));
+      border: 1px solid rgba(0,229,255,.2); color: var(--cyan);
+      margin-bottom: .65rem; text-transform: uppercase;
+    }
+    .proj-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; margin-bottom: .4rem; }
+    .proj-desc { color: #94a3b8; font-size: .855rem; flex: 1; margin-bottom: 1.25rem; }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .ptag {
+      padding: .2rem .6rem; border-radius: 6px;
+      font-family: var(--font-mono); font-size: .68rem;
+      background: rgba(0,229,255,.07); color: var(--cyan);
+      border: 1px solid rgba(0,229,255,.12);
+    }
+    .ptag.p { background: rgba(168,85,247,.07); color: var(--purple); border-color: rgba(168,85,247,.12); }
+    .ptag.g { background: rgba(34,211,160,.07); color: var(--green); border-color: rgba(34,211,160,.12); }
+
+    /* ── CONTACT ── */
+    #contact .contact-wrap {
+      max-width: 700px; margin: 0 auto; text-align: center;
+    }
+    .contact-sub { color: #94a3b8; font-size: .95rem; margin-bottom: 2.5rem; }
+    .contact-cards {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .contact-card {
+      padding: 1.5rem 1rem; border-radius: 14px;
+      background: var(--glass); border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      transition: border-color .2s, background .2s;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    }
+    .contact-card:hover { border-color: var(--cyan); background: rgba(0,229,255,.04); }
+    .contact-card-icon { font-size: 1.5rem; }
+    .contact-card-label { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); }
+    .contact-card-val { font-size: .85rem; font-weight: 500; }
+    .contact-tagline {
+      font-family: var(--font-mono); font-size: .8rem; color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 2rem;
+      font-family: var(--font-mono); font-size: .72rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer span { color: var(--cyan); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #about .about-wrap { grid-template-columns: 1fr; }
+      .about-img-side { grid-template-columns: repeat(4, 1fr); }
+      .stat-card:nth-child(2), .stat-card:nth-child(4) { margin-top: 0; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 100px 6% 60px; }
+      .about-img-side { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">
+    <span class="ck">CK</span><span class="nb">NB</span><span class="sol">Solutions</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#services">services</a></li>
+    <li><a href="#team">team</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire Us</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">OPEN FOR PROJECTS — 2025</div>
+  <h1 class="hero-title">
+    We Build<br>
+    <span class="line2 grad">Digital Products</span><br>
+    That Matter.
+  </h1>
+  <p class="hero-sub">
+    CKNB Solutions is a 4-person freelance dev team. We design and build full-stack web apps,
+    mobile applications, and REST APIs — fast, clean, and production-ready.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">See our work</a>
+    <a href="#contact" class="btn-outline">Work with us</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="h-stat-num">10+</div>
+      <div class="h-stat-label">Projects delivered</div>
+    </div>
+    <div>
+      <div class="h-stat-num">4</div>
+      <div class="h-stat-label">Developers</div>
+    </div>
+    <div>
+      <div class="h-stat-num">100%</div>
+      <div class="h-stat-label">Client satisfaction</div>
+    </div>
+    <div>
+      <div class="h-stat-num">2</div>
+      <div class="h-stat-label">Years together</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-eyebrow">about us</div>
+  <h2 class="sec-title">Who we are</h2>
+  <div class="sec-line"></div>
+  <div class="about-wrap">
+    <div>
+      <div class="about-text">
+        <p>
+          We're <strong>CKNB Solutions</strong> — a tight-knit team of four Computer Engineering students
+          who turned our passion for building things into a freelance practice.
+          We ship full-stack systems that are clean, maintainable, and built to last.
+        </p>
+        <p>
+          Every project we take on gets the full team's attention: backend architecture,
+          frontend polish, deployment, and everything in between. No outsourcing, no shortcuts.
+        </p>
+      </div>
+      <div class="about-values">
+        <div class="value-item">
+          <div class="value-icon">⚡</div>
+          <div>
+            <div class="value-title">We ship fast</div>
+            <div class="value-desc">Iterative delivery, no waiting months to see results.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">🔒</div>
+          <div>
+            <div class="value-title">We build solid</div>
+            <div class="value-desc">Auth, security, and scalability are never afterthoughts.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">🎨</div>
+          <div>
+            <div class="value-title">We care about UI</div>
+            <div class="value-desc">Beautiful interfaces that users actually enjoy using.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-img-side">
+      <div class="stat-card">
+        <div class="stat-num">15+</div>
+        <div class="stat-lbl">Projects built</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4</div>
+        <div class="stat-lbl">Team members</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8+</div>
+        <div class="stat-lbl">Technologies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">∞</div>
+        <div class="stat-lbl">Coffee consumed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sec-eyebrow">what we do</div>
+  <h2 class="sec-title">Our services</h2>
+  <div class="sec-line"></div>
+  <div class="services-grid">
+
+    <div class="service-card glass">
+      <div class="service-icon" style="background:rgba(0,229,255,.1)">🌐</div>
+      <div class="service-title">Web App Development</div>
+      <div class="service-desc">
+        Full-stack web applications from database design to deployment.
+        We handle the whole pipeline so you don't have to.
+      </div>
+      <div class="service-tags">
+        <span class="stag">Django</span>
+        <span class="stag p">Angular</span>
+        <span class="stag g">PostgreSQL</span>
+        <span class="stag">REST APIs</span>
+      </div>
+    </div>
+
+    <div class="service-card glass">
+      <div class="service-icon" style="background:rgba(168,85,247,.1)">📱</div>
+      <div class="service-title">Mobile App Development</div>
+      <div class="service-desc">
+        Cross-platform mobile apps that run on Android and iOS.
+        Native feel, web tech speed.
+      </div>
+      <div class="service-tags">
+        <span class="stag p">Ionic</span>
+        <span class="stag">Angular</span>
+        <span class="stag g">Capacitor</span>
+        <span class="stag p">Android APK</span>
+      </div>
+    </div>
+
+    <div class="service-card glass">
+      <div class="service-icon" style="background:rgba(34,211,160,.1)">⚙️</div>
+      <div class="service-title">API & Backend Systems</div>
+      <div class="service-desc">
+        Scalable REST APIs with proper auth, role-based access, and clean
+        architecture. Ready to plug into any frontend.
+      </div>
+      <div class="service-tags">
+        <span class="stag g">Node.js</span>
+        <span class="stag">Express</span>
+        <span class="stag g">Django REST</span>
+        <span class="stag">JWT</span>
+      </div>
+    </div>
+
+    <div class="service-card glass">
+      <div class="service-icon" style="background:rgba(249,115,22,.1)">🚀</div>
+      <div class="service-title">Deployment & DevOps</div>
+      <div class="service-desc">
+        We don't just build — we ship. CI/CD, cloud deployment, domain setup,
+        and post-launch support included.
+      </div>
+      <div class="service-tags">
+        <span class="stag o">Railway</span>
+        <span class="stag o">Render</span>
+        <span class="stag">Docker</span>
+        <span class="stag o">GitHub Actions</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="sec-eyebrow">the people</div>
+  <h2 class="sec-title">Meet the team</h2>
+  <div class="sec-line"></div>
+  <div class="team-grid">
+
+    <div class="member-card glass">
+      <div class="member-avatar" style="background:linear-gradient(135deg,#00e5ff22,#a855f722)">C</div>
+      <div class="member-name">Member C</div>
+      <div class="member-role">// Full-Stack Developer</div>
+      <div class="member-bio">Loves clean architecture and building systems that actually scale. Django is home base.</div>
+      <div class="member-skills">
+        <span class="m-skill">Django</span>
+        <span class="m-skill">Angular</span>
+        <span class="m-skill">PostgreSQL</span>
+      </div>
+      <div class="member-links">
+        <a href="https://github.com/Angel0-gif" class="m-link">⌥</a>
+        <a href="https://www.linkedin.com/in/ange-christ-chetsong-344388393/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B8%2BuDBAbBSKenHnfnX%2Fcx4w%3D%3D" class="m-link">in</a>
+      </div>
+    </div>
+
+    <div class="member-card glass">
+      <div class="member-avatar" style="background:linear-gradient(135deg,#a855f722,#22d3a022)">K</div>
+      <div class="member-name">Member K</div>
+      <div class="member-role">// Mobile & Frontend Dev</div>
+      <div class="member-bio">Crafts smooth mobile experiences with Ionic + Angular. Can turn a Figma file into pixel-perfect UI.</div>
+      <div class="member-skills">
+        <span class="m-skill">Ionic</span>
+        <span class="m-skill">Angular</span>
+        <span class="m-skill">TypeScript</span>
+      </div>
+      <div class="member-links">
+        <a href="#" class="m-link">⌥</a>
+        <a href="#" class="m-link">in</a>
+      </div>
+    </div>
+
+    <div class="member-card glass">
+      <div class="member-avatar" style="background:linear-gradient(135deg,#22d3a022,#00e5ff22)">N</div>
+      <div class="member-name">Member N</div>
+      <div class="member-role">// Backend & API Engineer</div>
+      <div class="member-bio">API whisperer. Builds fast, secure REST services with Node.js and makes databases sing.</div>
+      <div class="member-skills">
+        <span class="m-skill">Node.js</span>
+        <span class="m-skill">Express</span>
+        <span class="m-skill">MySQL</span>
+      </div>
+      <div class="member-links">
+        <a href="#" class="m-link">⌥</a>
+        <a href="#" class="m-link">in</a>
+      </div>
+    </div>
+
+    <div class="member-card glass">
+      <div class="member-avatar" style="background:linear-gradient(135deg,#f9731622,#a855f722)">B</div>
+      <div class="member-name">Member B</div>
+      <div class="member-role">// DevOps & Systems Dev</div>
+      <div class="member-bio">Gets things shipped. Expert in deployment pipelines, Docker, and making production not scary.</div>
+      <div class="member-skills">
+        <span class="m-skill">Docker</span>
+        <span class="m-skill">Railway</span>
+        <span class="m-skill">Linux</span>
+      </div>
+      <div class="member-links">
+        <a href="#" class="m-link">⌥</a>
+        <a href="#" class="m-link">in</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-eyebrow">our work</div>
+  <h2 class="sec-title">Projects we've built</h2>
+  <div class="sec-line"></div>
+  <div class="projects-grid">
+
+    <div class="proj-card glass">
+      <div class="proj-badge">✦ featured</div>
+      <div class="proj-top">
+        <div class="proj-icon" style="background:rgba(0,229,255,.1)">🍽️</div>
+        <div class="proj-links"><a href="#" class="proj-link">↗</a></div>
+      </div>
+      <div class="proj-title">LaCucina</div>
+      <div class="proj-desc">
+        Full-stack restaurant management system with JWT auth, role-based access, daily reports,
+        order management, and a dark glassmorphism Angular frontend.
+      </div>
+      <div class="proj-stack">
+        <span class="ptag">Django REST</span>
+        <span class="ptag p">Angular 17</span>
+        <span class="ptag g">PostgreSQL</span>
+        <span class="ptag">JWT</span>
+      </div>
+    </div>
+
+    <div class="proj-card glass">
+      <div class="proj-badge">✦ featured</div>
+      <div class="proj-top">
+        <div class="proj-icon" style="background:rgba(168,85,247,.1)">🍴</div>
+        <div class="proj-links"><a href="https://github.com/Angel0-gif/Eastsy" target="_blank" class="proj-link">↗</a></div>
+      </div>
+      <div class="proj-title">Eastsy</div>
+      <div class="proj-desc">
+        Full-stack restaurant mobile app (Ionic 7 + Angular 17 + Django REST). Menu browsing,
+        table reservations, order tracking, payments, reviews. Ships as Android APK via Capacitor.
+      </div>
+      <div class="proj-stack">
+        <span class="ptag p">Ionic 7</span>
+        <span class="ptag">Angular 17</span>
+        <span class="ptag g">Django REST</span>
+        <span class="ptag p">Capacitor</span>
+      </div>
+    </div>
+
+    <div class="proj-card glass">
+      <div class="proj-top">
+        <div class="proj-icon" style="background:rgba(34,211,160,.1)">💰</div>
+        <div class="proj-links"><a href="https://github.com/Angel0-gif/SpendWise" target="_blank" class="proj-link">↗</a></div>
+      </div>
+      <div class="proj-title">SpendWise</div>
+      <div class="proj-desc">
+        Personal finance REST API with transaction management, budget tracking, savings goals,
+        multi-account support, and OTP email auth.
+      </div>
+      <div class="proj-stack">
+        <span class="ptag g">Node.js</span>
+        <span class="ptag">Express</span>
+        <span class="ptag p">MySQL</span>
+        <span class="ptag">JWT</span>
+      </div>
+    </div>
+
+    <div class="proj-card glass">
+      <div class="proj-top">
+        <div class="proj-icon" style="background:rgba(168,85,247,.1)">🏥</div>
+        <div class="proj-links"><a href="#" class="proj-link">↗</a></div>
+      </div>
+      <div class="proj-title">MediCare</div>
+      <div class="proj-desc">
+        Clinic management web app with 7 modules — patients, appointments, pharmacy,
+        finance, staff, and reports. Deployed on Railway.
+      </div>
+      <div class="proj-stack">
+        <span class="ptag">Django</span>
+        <span class="ptag g">Railway</span>
+        <span class="ptag p">PostgreSQL</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-eyebrow" style="justify-content:center">get in touch</div>
+    <h2 class="sec-title">Let's build something</h2>
+    <div class="sec-line" style="margin:0 auto 1.5rem"></div>
+    <p class="contact-sub">
+      Have a project in mind? Need a web app, mobile app, or a backend API?
+      We're open to freelance work and collaborations. Reach out — we respond fast.
+    </p>
+    <div class="contact-cards">
+      <a href="cknbsolutions589@gmail.com" class="contact-card">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-label">Email us</div>
+        <div class="contact-card-val">cknbsolutions589@gmail.com</div>
+      </a>
+      <a href="https://github.com/Angel0-gif" target="_blank" class="contact-card">
+        <div class="contact-card-icon">⌥</div>
+        <div class="contact-card-label">GitHub</div>
+        <div class="contact-card-val">github.com/cknb</div>
+      </a>
+      <a href="#" class="contact-card">
+        <div class="contact-card-icon">💬</div>
+        <div class="contact-card-label">WhatsApp</div>
+        <div class="contact-card-val">+237 678 395 502</div>
+      </a>
+    </div>
+    <div class="contact-tagline">Based in Cameroon · Working worldwide 🌍</div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <span>CKNB Solutions</span> · Built with 💙 by the team</p>
+</footer>
+
+</body>
+</html>
