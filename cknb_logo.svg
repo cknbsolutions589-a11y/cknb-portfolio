@@ -10,7 +10,7 @@
     </linearGradient>
   </defs>
 
-  <rect width="300" height="300" fill="#0b1220"/>
+  <!-- NO background rect — fully transparent -->
 
   <!-- outer hexagon -->
   <polygon
@@ -29,22 +29,22 @@
     opacity="0.3"
   />
 
-  <!-- hex center = 150, 140 -->
-  <!-- CK row: y=125, NB row: y=175 -->
-  <!-- C left: x=118, K right: x=182 -->
-
+  <!-- C - cyan -->
   <text x="118" y="128" text-anchor="middle"
     font-family="Arial, sans-serif" font-size="52" font-weight="700"
     fill="#00e5ff">C</text>
 
+  <!-- K - purple -->
   <text x="182" y="128" text-anchor="middle"
     font-family="Arial, sans-serif" font-size="52" font-weight="700"
     fill="#a855f7">K</text>
 
+  <!-- N - green -->
   <text x="118" y="192" text-anchor="middle"
     font-family="Arial, sans-serif" font-size="52" font-weight="700"
     fill="#22d3a0">N</text>
 
+  <!-- B - purple -->
   <text x="182" y="192" text-anchor="middle"
     font-family="Arial, sans-serif" font-size="52" font-weight="700"
     fill="#a855f7">B</text>
